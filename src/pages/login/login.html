@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flipkart Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <h2>Login</h2>
+      <p>
+        Get access to your Orders,<br />
+        Wishlist and Recommendations
+      </p>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-g">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Enter Email / Mobile number"
+            required
+          />
+          <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']" class="error-message">
+            Email is required
+          </div>
+          <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']" class="error-message">
+            Please enter a valid email
+          </div>
+        </div>
+
+        <div class="form-g">
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Enter Password"
+            required
+          />
+          <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']" class="error-message">
+            Password is required
+          </div>
+        </div>
+
+        <div class="terms">
+          By continuing, you agree to Flipkart's
+          <a href="#">Terms of Use</a> and
+          <a href="#">Privacy Policy</a>.
+        </div>
+
+        <button type="submit" class="login-btn">
+          Login
+        </button>
+
+        
+
+        <div class="signup-link">
+          <a routerLink="register">New to Flipkart? Create an account</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>

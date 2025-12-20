@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flipkart Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+
+  <div class="register-container">
+
+    <!-- LEFT INFO -->
+    <div class="left-panel">
+      <h2>Looks like you're new here!</h2>
+      <p>Sign up with your mobile number to get started</p>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="right-panel">
+      <form [formGroup]="registerform" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <input type="text" formControlName="FullName"  placeholder="Enter Full Name" />
+          <div *ngIf="registerform.get('FullName')?.touched && registerform.get('FullName')?.errors?.['required']" class="error-message">
+            Full Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="email" formControlName="Email"  placeholder="Enter Email" />
+          <div *ngIf="registerform.get('Email')?.touched && registerform.get('Email')?.errors?.['required']" class="error-message">
+            Email is required
+          </div>
+          <div *ngIf="registerform.get('Email')?.touched && registerform.get('Email')?.errors?.['email']" class="error-message">
+            Please enter a valid email
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="tel" formControlName="MobileNumber"  placeholder="Enter Mobile Number" />
+          <div *ngIf="registerform.get('MobileNumber')?.touched && registerform.get('MobileNumber')?.errors?.['required']" class="error-message">
+            Mobile number is required
+          </div>
+          <div *ngIf="registerform.get('MobileNumber')?.touched && registerform.get('MobileNumber')?.errors?.['pattern']" class="error-message">
+            Please enter a valid 10-digit mobile number
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="password" formControlName="Password"  placeholder="Enter Password" />
+          <div *ngIf="registerform.get('Password')?.touched && registerform.get('Password')?.errors?.['required']" class="error-message">
+            Password is required
+          </div>
+          <div *ngIf="registerform.get('Password')?.touched && registerform.get('Password')?.errors?.['minlength']" class="error-message">
+            Password must be at least 6 characters long
+          </div>
+        </div>
+
+        <div class="terms">
+          By continuing, you agree to Flipkart's
+          <a >Terms of Use</a> and
+          <a >Privacy Policy</a>.
+        </div>
+
+        <button class="register-btn" type="submit">
+          Submit
+        </button>
+
+        <div class="login-link">
+          <a routerLink="">Existing User? Log in</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
