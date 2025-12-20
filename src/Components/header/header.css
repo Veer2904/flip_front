@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+.flipzone-header {
+  background-color: #2874f0;
+  padding: 12px 0;
+}
+
+/* CONTAINER */
+.header-container {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.logo-main {
+  color: #fff;
+}
+
+.logo-sub {
+  color: #ffe500;
+}
+
+/* SEARCH */
+.search-box {
+  display: flex;
+  width: 45%;
+  background: #fff;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-box button {
+  background: #fff;
+  border: none;
+  padding: 0 16px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ACTIONS */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+  background: #fff;
+  color: #2874f0;
+  border: none;
+  padding: 8px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* NAV ITEMS */
+.nav-item,
+.cart {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.nav-item:hover,
+.cart:hover {
+  text-decoration: underline;
+}

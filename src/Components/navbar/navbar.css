@@ -1,0 +1,41 @@
+.flipzone-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-menu {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 10px 0;
+}
+
+.nav-menu li {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Hover Effect (Flipkart style underline) */
+.nav-menu li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background-color: #2874f0;
+  transition: width 0.3s ease;
+}
+
+.nav-menu li:hover {
+  color: #2874f0;
+}
+
+.nav-menu li:hover::after {
+  width: 100%;
+}
