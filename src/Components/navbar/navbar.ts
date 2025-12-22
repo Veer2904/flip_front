@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -8,10 +9,19 @@ interface Product {
   Title: string;
   Price: number;
 }
+=======
+import { Component } from '@angular/core';
+import {  Router } from '@angular/router';
+import { Header } from '../header/header';
+import { RouterOutlet } from '@angular/router';
+import { Auth } from '../../Auth/auth';
+import { CommonModule } from '@angular/common';
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule,RouterLink],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
@@ -52,5 +62,21 @@ export class Navbar implements OnInit {
 
   trackByTitle(index: number, item: Product) {
     return item.Title;
+=======
+  imports: [CommonModule,  Header, RouterOutlet],
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.css',
+})
+export class Navbar {
+  constructor(
+    private auth: Auth,
+    private router: Router
+  ) {}
+
+  navigateToProducts() {
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['navbar/products']);
+    } 
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
   }
 }

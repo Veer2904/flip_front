@@ -31,7 +31,11 @@ export class Login implements OnInit {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.auth.login(email, password).subscribe(() => {
+<<<<<<< HEAD
         this.router.navigate(['home']);
+=======
+        this.router.navigate(['navbar']);
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
       });
     }
   }

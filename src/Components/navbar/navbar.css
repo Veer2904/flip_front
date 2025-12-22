@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* NAVBAR */
 .flipzone-navbar {
   background-color: #ffffff;
@@ -7,6 +8,13 @@
 }
 
 /* MENU */
+=======
+.flipzone-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
 .nav-menu {
   width: 95%;
   margin: auto;
@@ -16,6 +24,7 @@
   padding: 10px 0;
 }
 
+<<<<<<< HEAD
 /* REMOVE CLICK BLOCKING FROM <li> */
 .nav-menu li {
   position: relative;
@@ -30,10 +39,14 @@
 .nav-menu button {
   background: transparent;
   border: none;
+=======
+.nav-menu li {
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
   font-size: 14px;
   font-weight: 500;
   color: #212121;
   cursor: pointer;
+<<<<<<< HEAD
   padding: 6px 8px;
 }
 
@@ -94,4 +107,27 @@
 
 .product-card button:hover {
   background-color: #1a5fcf;
+=======
+  position: relative;
+}
+
+/* Hover Effect (Flipkart style underline) */
+.nav-menu li::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background-color: #2874f0;
+  transition: width 0.3s ease;
+}
+
+.nav-menu li:hover {
+  color: #2874f0;
+}
+
+.nav-menu li:hover::after {
+  width: 100%;
+>>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
 }
