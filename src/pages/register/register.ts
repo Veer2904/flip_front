@@ -9,10 +9,7 @@ export interface registerform{
   Email : string
   MobileNumber : string
   Password : string
-<<<<<<< HEAD
   
-=======
->>>>>>> a4ddc96ce5056c9427155f87781efaf58a6f613c
 }
 @Component({
   selector: 'app-register',

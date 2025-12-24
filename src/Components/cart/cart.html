@@ -1,1 +1,42 @@
-<p>cart works!</p>
+<!-- CART ITEMS -->
+<div *ngFor="let item of cartItems">
+  <div class="cart-item-grid">
+
+    <!-- Product Info -->
+    <div class="cart-product">
+      <div class="cart-title">{{ item.Title }}</div>
+      <div class="cart-price">₹{{ item.Price }} each</div>
+    </div>
+
+    <!-- Quantity -->
+    <div class="cart-qty">
+      Qty: {{ item.Quantity }}
+    </div>
+
+    <!-- Subtotal -->
+    <div class="cart-subtotal">
+      ₹{{ item.Price * item.Quantity }}
+    </div>
+
+    <!-- Remove -->
+    <div class="cart-action">
+      <button (click)="remove(item)">Remove</button>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<!-- CART SUMMARY -->
+<div class="cart-summary">
+  <div class="summary-row">
+    <span>Total Items</span>
+    <span>{{ cartItems.length }}</span>
+  </div>
+
+  <div class="summary-row total-row">
+    <span>Total Amount</span>
+    <span>₹{{ total }}</span>
+  </div>
+</div>

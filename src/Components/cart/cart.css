@@ -1,0 +1,140 @@
+/* ================= BASE PAGE ================= */
+:host {
+  display: block;
+  background-color: #f1f3f6;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+/* ================= TITLE ================= */
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 18px;
+}
+
+/* ================= EMPTY CART ================= */
+.empty-cart {
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 40px;
+  text-align: center;
+  color: #757575;
+  font-size: 16px;
+}
+
+/* ================= CART ITEM GRID ================= */
+.cart-item-grid {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr auto;
+  align-items: center;
+  gap: 16px;
+
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+
+/* ================= PRODUCT DETAILS ================= */
+.cart-product {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cart-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #212121;
+}
+
+.cart-price {
+  font-size: 13px;
+  color: #757575;
+}
+
+/* ================= QUANTITY ================= */
+.cart-qty {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  text-align: center;
+}
+
+/* ================= SUBTOTAL ================= */
+.cart-subtotal {
+  font-size: 15px;
+  font-weight: 600;
+  color: #212121;
+  text-align: right;
+}
+
+/* ================= DIVIDER ================= */
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 22px 0;
+}
+
+/* ================= CART SUMMARY ================= */
+.cart-summary {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px 18px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #424242;
+  margin-bottom: 10px;
+}
+
+.total-row {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212121;
+  margin-top: 8px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .cart-item-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cart-qty,
+  .cart-subtotal {
+    text-align: left;
+  }
+
+  .cart-action {
+    text-align: left;
+  }
+}
+/* ================= REMOVE BUTTON ================= */
+.cart-action button {
+  background: transparent;
+  border: none;
+  color: #2874f0;              /* Flipkart blue */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color 0.2s ease;
+}
+
+/* Hover → Red (Danger action) */
+.cart-action button:hover {
+  color: #d32f2f;              /* Red */
+  text-decoration: underline;
+}
