@@ -1,30 +1,36 @@
 <!-- CART ITEMS -->
-<div *ngFor="let item of cartItems">
-  <div class="cart-item-grid">
+<ng-container *ngIf="!isCartEmpty(); else emptyCart">
+  <div *ngFor="let Items of getValidCartItems()">
+    <div class="cart-item-grid">
+      <!-- Product Info -->
+      <div class="cart-product">
+        <div class="cart-title">{{ Items['title'] || 'Product Title Not Available' }}</div>
+        <div class="cart-price">₹{{ (Items.price | number:'1.2-2') || '0.00' }} each</div>
+      </div>
 
-    <!-- Product Info -->
-    <div class="cart-product">
-      <div class="cart-title">{{ item.Title }}</div>
-      <div class="cart-price">₹{{ item.Price }} each</div>
+      <!-- Quantity -->
+      <div class="cart-qty">
+        Qty: {{ Items.quantity || 0 }}
+      </div>
+
+      <!-- Subtotal -->
+      <div class="cart-subtotal">
+        ₹{{ ((Items.price || 0) * (Items.quantity || 0) | number:'1.2-2') }}
+      </div>
+
+      <!-- Remove -->
+      <div class="cart-action">
+        <button (click)="removeitem(Items.product_id)">Remove</button>
+      </div>
     </div>
-
-    <!-- Quantity -->
-    <div class="cart-qty">
-      Qty: {{ item.Quantity }}
-    </div>
-
-    <!-- Subtotal -->
-    <div class="cart-subtotal">
-      ₹{{ item.Price * item.Quantity }}
-    </div>
-
-    <!-- Remove -->
-    <div class="cart-action">
-      <button (click)="remove(item)">Remove</button>
-    </div>
-
   </div>
-</div>
+</ng-container>
+
+<ng-template #emptyCart>
+  <div class="empty-cart">
+    Your cart is empty
+  </div>
+</ng-template>
 
 <hr>
 

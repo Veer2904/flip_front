@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Product } from '../models/product.model';
+import { product } from '../models/product.model';
 
 export interface data {
   FullName: string,
@@ -52,8 +52,8 @@ export class Auth {
   logout(){
     localStorage.removeItem('token')
   }
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/products`);
+  getProducts(): Observable<product[]> {
+    return this.http.get<product[]>(`${this.baseUrl}/products`);
   }
 }
 

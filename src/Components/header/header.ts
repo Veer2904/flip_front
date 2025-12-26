@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CartService } from '../../Auth/cart';
-import { CartItem } from '../../models/cart-item';
 import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +16,7 @@ export class Header implements OnInit {
 
   cartCount = 0;
   isLoggedIn = false;
+  private cartSubscription?: Subscription;
 
   constructor(
     private cartService: CartService,
@@ -26,19 +27,22 @@ export class Header implements OnInit {
     this.isLoggedIn = !!localStorage.getItem('token');
 
     if (this.isLoggedIn) {
-      this.cartService.cartItems$.subscribe((items: CartItem[]) => {
+      this.cartSubscription = this.cartService.items$.subscribe((items: any[]) => {
         this.cartCount = items.reduce(
-          (sum, item) => sum + item.Quantity,
+          (sum, item) => sum + (item.quantity || 0),
           0
         );
       });
-
-      this.cartService.loadCart();
     }
   }
 
   logout(): void {
     localStorage.clear();
     this.router.navigate(['/']);
+  }
+  ngOnDestroy(): void {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
   }
 }

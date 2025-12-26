@@ -1,71 +1,68 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { CartItem } from '../models/cart-item';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { product } from '../models/product.model';
+import { consumerMarkDirty } from '@angular/core/primitives/signals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private baseUrl = 'http://127.0.0.1:8000';
 
-  private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
-  cartItems$ = this.cartItemsSubject.asObservable();
+  private baseUrl = 'http://127.0.0.1:8000/cart';
+  private itemsSubject = new BehaviorSubject<any[]>([]);
+  items$= this.itemsSubject.asObservable();
+  private cartUpdated$ = new BehaviorSubject<void>(undefined);
 
   constructor(private http: HttpClient) {}
-
-  /* ================= HELPER ================= */
+  refreshCart(){
+    this.cartUpdated$.next();
+  }
+  onCartUpdated(){
+    return this.cartUpdated$.asObservable();
+  }
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-
+    const token = localStorage.getItem('token'); // or access_token
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
   }
-
-  /* ================= LOAD CART ================= */
   loadCart() {
-  this.http.get<CartItem[]>(
-    `${this.baseUrl}/cart`,
-    { headers: this.getAuthHeaders() }
-  ).subscribe({
-    next: items => this.cartItemsSubject.next(items),
-    error: err => {
-      if (err.status === 401) {
-        console.error('Unauthorized – token expired');
-        this.cartItemsSubject.next([]);
-        localStorage.removeItem('token');
+    this.getCart().subscribe({
+      next: (items) => {
+        this.itemsSubject.next(items);
+      },
+      error: (err) => {
+        console.error('Failed to load cart', err);
+        this.itemsSubject.next([]);
       }
-    }
-  });
-}
-
-
-  getCart(): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(
-      `${this.baseUrl}/cart`,
-      { headers: this.getAuthHeaders() }
+    });
+  }
+  addToCart(product: product): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/add`,
+      {
+        product_id: product.id,   // or ProductID (match backend)
+        quantity: 1
+      },
+      {
+        headers: this.getAuthHeaders()
+      }
     );
   }
-
-  /* ================= ADD TO CART ================= */
-  addToCart(productId: number) {
-    this.http.post<CartItem>(
-      `${this.baseUrl}/cart/add/${productId}`,
-      {},
-      { headers: this.getAuthHeaders() }
-    ).subscribe(() => {
-      this.loadCart(); // refresh instantly
+  getCart(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/show`, {
+      headers: this.getAuthHeaders()
     });
   }
 
-  /* ================= REMOVE FROM CART ================= */
-  removeItem(productId: number) {
-    this.http.delete(
-      `${this.baseUrl}/cart/remove/${productId}`,
-      { headers: this.getAuthHeaders() }
-    ).subscribe(() => {
-      this.loadCart(); // refresh instantly
-    });
+  removeFromCart(productId: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/remove/${productId}`,
+      {
+        headers: this.getAuthHeaders()
+      },
+    );    
   }
 }

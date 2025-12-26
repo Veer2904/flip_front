@@ -6,6 +6,8 @@ import { Subscription, switchMap } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { CartService } from '../../Auth/cart';
 import { Product } from '../../models/products';
+import { product } from '../../models/product.model';
+
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -57,18 +59,30 @@ export class ProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  addToCart(product: Product): void {
-    if (!product || product.ProductID === undefined) {
-      console.error('❌ Invalid product object:', product);
-      return;
-    }
+  addToCart(product: Product) {
+    // Map the Product to the expected product type
+    const cartProduct: product = {
+      id: product.ProductID,
+      Title: product.Title,
+      Price: product.Price,
+      ImageUrl: product.ImageUrl || '' // Provide a default empty string if ImageUrl is undefined
+    };
+
+    this.cartService.addToCart(cartProduct).subscribe({
+      next: () => {
+        this.cartService.loadCart();
+      },
+      error: err => {
+        console.error('Add to cart failed', err);
+      }
+    });
+  }
+
 
     // ✅ ALWAYS A NUMBER
-    this.cartService.addToCart(product.ProductID);
-  }
+    // this.cartService.addToCart(products); 
+  
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
-
 }
