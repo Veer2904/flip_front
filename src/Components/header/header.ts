@@ -4,16 +4,17 @@ import { Router } from '@angular/router';
 import { CartService } from '../../Auth/cart';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule,FormsModule, RouterLink],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
 export class Header implements OnInit {
-
+  searchText = '';
   cartCount = 0;
   isLoggedIn = false;
   private cartSubscription?: Subscription;
@@ -35,7 +36,13 @@ export class Header implements OnInit {
       });
     }
   }
-
+  onSearch(){
+    if(!this.searchText.trim()) return;
+    this.router.navigate(
+      ['/home/products'],
+      { queryParams: { search: this.searchText } }
+    );
+  }
   logout(): void {
     localStorage.clear();
     this.router.navigate(['/']);

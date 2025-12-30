@@ -1,27 +1,37 @@
 <!-- CART ITEMS -->
-<ng-container *ngIf="!isCartEmpty(); else emptyCart">
-  <div *ngFor="let Items of getValidCartItems()">
+<ng-container *ngIf="filteredCartItems.length > 0; else emptyCart">
+  <div *ngFor="let item of filteredCartItems">
     <div class="cart-item-grid">
+
       <!-- Product Info -->
       <div class="cart-product">
-        <div class="cart-title">{{ Items['title'] || 'Product Title Not Available' }}</div>
-        <div class="cart-price">₹{{ (Items.price | number:'1.2-2') || '0.00' }} each</div>
+        <div>
+          <img [src]="encodeImageUrl(item.image)" width="120" height="120" loading="lazy" />
+
+        </div>
+        <div class="cart-title">
+          {{ item.title || 'Product Title Not Available' }}
+        </div>
+        <div class="cart-price">
+          ₹{{ item.price | number:'1.2-2' }} each
+        </div>
       </div>
 
       <!-- Quantity -->
       <div class="cart-qty">
-        Qty: {{ Items.quantity || 0 }}
+        Qty: {{ item.quantity }}
       </div>
 
       <!-- Subtotal -->
       <div class="cart-subtotal">
-        ₹{{ ((Items.price || 0) * (Items.quantity || 0) | number:'1.2-2') }}
+        ₹{{ (item.price * item.quantity) | number:'1.2-2' }}
       </div>
 
       <!-- Remove -->
       <div class="cart-action">
-        <button (click)="removeitem(Items.product_id)">Remove</button>
+        <button (click)="removeItem(item.product_id)">Remove</button>
       </div>
+
     </div>
   </div>
 </ng-container>
@@ -38,11 +48,11 @@
 <div class="cart-summary">
   <div class="summary-row">
     <span>Total Items</span>
-    <span>{{ cartItems.length }}</span>
+    <span>{{ filteredCartItems.length }}</span>
   </div>
 
   <div class="summary-row total-row">
     <span>Total Amount</span>
-    <span>₹{{ total }}</span>
+    <span class="price">₹{{ total }}</span>
   </div>
 </div>

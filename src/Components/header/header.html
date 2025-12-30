@@ -8,14 +8,15 @@
 
     <!-- SEARCH -->
     <div class="search-box">
-      <input type="text" placeholder="Search for products, brands and more" />
+      <input type="text" placeholder="Search for products, brands and more" [(ngModel)]="searchText"
+        (keyup.enter)="onSearch()" />
       <button>🔍</button>
     </div>
 
     <!-- ACTIONS -->
     <div class="header-actions">
       <button class="login-btn" (click)="logout()">Logout</button>
-      <div class="nav-item">Become a Seller</div>
+      <div class="nav-item" routerLink="Seller">Sell Product</div>
       <div class="nav-item">More ▾</div>
       <div class="cart" routerLink="cart">🛒 Cart</div>
     </div>

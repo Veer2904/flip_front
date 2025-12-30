@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Add Product Details</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="submit()">
+
+    <label>Product Name :</label>
+    <input type="text" formControlName="Title" />
+
+    <label>Product Description :</label>
+    <textarea formControlName="Description"></textarea>
+
+    <label>Price :</label>
+    <input type="number" formControlName="Price" />
+
+    <label>Discount Price :</label>
+    <input type="number" formControlName="DiscountPrice" />
+
+    <label>Stock :</label>
+    <input type="number" formControlName="Stock" />
+
+    <label>Category Name :</label>
+    <select type="text" formControlName="CategoryID">
+      <option value="2">Electronic</option>
+      <option value="3">Fashion</option>
+      <option value="4">Home</option>
+      <option value="5">Appliances</option>
+      <option value="2">Mobiles</option>
+      <option value="6">Grocery</option>
+    </select>
+
+    <label>Brand :</label>
+    <input type="text" formControlName="Brand" />
+
+    <label>Product Image :</label>
+    <input type="file" (change)="onFileSelected($event)" />
+
+    <button type="submit" [disabled]="productForm.invalid">
+      Add Product
+    </button>
+
+  </form>
+</div>

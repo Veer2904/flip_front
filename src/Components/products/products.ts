@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CartService } from '../../Auth/cart';
 import { Product } from '../../models/products';
 import { product } from '../../models/product.model';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -19,6 +20,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   products: any[] = [];
   loading = false;
+  showPopup = false;
   apiUrl = 'http://127.0.0.1:8000/auth/products';
 
   private sub!: Subscription;
@@ -29,36 +31,39 @@ export class ProductComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private cartService: CartService
   ) { }
-
   ngOnInit(): void {
-    this.sub = this.route.paramMap
-      .pipe(
-        switchMap(params => {
-          this.loading = true;
-          const category = params.get('category');
+  this.sub = combineLatest([
+    this.route.paramMap,
+    this.route.queryParams
+  ]).pipe(
+    switchMap(([params, query]) => {
+      this.loading = true;
 
-          const url = category
-            ? `${this.apiUrl}?category=${category}`
-            : this.apiUrl;
+      const category = params.get('category');
+      const search = query['search'];
 
-          return this.http.get<any[]>(url);
-        })
-      )
-      .subscribe({
-        next: data => {
-          this.products = data;
-          this.loading = false;
-          this.cdr.detectChanges();
-        },
-        error: err => {
-          console.error(err);
-          this.products = [];
-          this.loading = false;
-          this.cdr.detectChanges();
-        }
+      const httpParams: any = {};
+      if (category) httpParams.category = category;
+      if (search) httpParams.search = search;
+
+      return this.http.get<any[]>(this.apiUrl, {
+        params: httpParams
       });
-  }
-
+    })
+  ).subscribe({
+    next: data => {
+      this.products = data;
+      this.loading = false;
+      this.cdr.detectChanges();
+    },
+    error: err => {
+      console.error(err);
+      this.products = [];
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
   addToCart(product: Product) {
     // Map the Product to the expected product type
     const cartProduct: product = {
@@ -70,18 +75,19 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     this.cartService.addToCart(cartProduct).subscribe({
       next: () => {
-        this.cartService.loadCart();
+        alert("Product Added to Cart Successfully");
       },
-      error: err => {
-        console.error('Add to cart failed', err);
+      error: (err: any) => {
+        alert("Failed to add product to cart");
       }
     });
   }
-
-
-    // ✅ ALWAYS A NUMBER
-    // this.cartService.addToCart(products); 
-  
+  openPopup(){
+    this.showPopup = true;
+  }
+  closePopup(){
+    this.showPopup=false;
+  }  
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }

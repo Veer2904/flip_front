@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { product } from '../models/product.model';
-import { consumerMarkDirty } from '@angular/core/primitives/signals';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +10,9 @@ export class CartService {
 
   private baseUrl = 'http://127.0.0.1:8000/cart';
   private itemsSubject = new BehaviorSubject<any[]>([]);
-  items$= this.itemsSubject.asObservable();
-  private cartUpdated$ = new BehaviorSubject<void>(undefined);
+  items$ = this.itemsSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
-  refreshCart(){
-    this.cartUpdated$.next();
-  }
-  onCartUpdated(){
-    return this.cartUpdated$.asObservable();
-  }
+  constructor(private http: HttpClient) { console.log('🟢 CartService instance created', Math.random());}
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token'); // or access_token
     return new HttpHeaders({
@@ -31,6 +23,7 @@ export class CartService {
   loadCart() {
     this.getCart().subscribe({
       next: (items) => {
+        console.log("Service emitted :")
         this.itemsSubject.next(items);
       },
       error: (err) => {
@@ -54,7 +47,8 @@ export class CartService {
   getCart(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/show`, {
       headers: this.getAuthHeaders()
-    });
+    }
+    );
   }
 
   removeFromCart(productId: number): Observable<any> {
@@ -63,6 +57,6 @@ export class CartService {
       {
         headers: this.getAuthHeaders()
       },
-    );    
+    );
   }
 }

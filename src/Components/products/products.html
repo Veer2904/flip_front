@@ -7,8 +7,9 @@
 <div *ngIf="!loading && products.length > 0" class="product-grid">
   <div class="product-card" *ngFor="let p of products">
     <img [src]="p.ImageUrl" [alt]="p.Title">
+    <div class="price-row">
     <h3>{{ p.Title }}</h3>
-    <p class="price">₹{{ p.Price }}</p>
+    <p class="price">₹{{ p.Price }}</p><button id="more" (click)="openPopup()">more ...</button></div>
     <button (click)="addToCart(p)">Add to Cart</button>
   </div>
 </div>

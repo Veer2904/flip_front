@@ -9,6 +9,7 @@ export interface registerform{
   Email : string
   MobileNumber : string
   Password : string
+  roll : string
   
 }
 @Component({
@@ -32,7 +33,8 @@ export class Register implements OnInit {
       FullName: ['', [Validators.required]],
       Email: ['', [Validators.required, Validators.email]],
       MobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      Password: ['', [Validators.required, Validators.minLength(6)]]
+      Password: ['', [Validators.required, Validators.minLength(6)]],
+      roll :['user']
     });
   }
   
@@ -45,7 +47,8 @@ export class Register implements OnInit {
       FullName : this.registerform.value.FullName,
       Email : this.registerform.value.Email,
       MobileNumber : this.registerform.value.MobileNumber,
-      Password : this.registerform.value.Password
+      Password : this.registerform.value.Password,
+      roll : this.registerform.value.roll
     }
     this.auth.register(payload).subscribe({
       next:()=>{

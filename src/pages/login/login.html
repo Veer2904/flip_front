@@ -55,6 +55,16 @@
           <a href="#">Terms of Use</a> and
           <a href="#">Privacy Policy</a>.
         </div>
+        <button class="google-login-btn" (click)="triggerGoogleLogin()">
+  <img
+    src="https://developers.google.com/identity/images/g-logo.png" 
+    alt="Google"
+  />
+  <span>Continue with Google</span>
+</button>
+
+<!-- hidden container for Google -->
+<div #googleBtn style="display:none"></div>
 
         <button type="submit" class="login-btn">
           Login

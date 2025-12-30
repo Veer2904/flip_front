@@ -5,6 +5,7 @@ import { Home } from '../pages/home/home';
 import { AuthGuard } from '../Auth/auth-guard';
 import { CartComponent } from '../Components/cart/cart';
 import { ProductComponent } from '../Components/products/products';
+import { AddProductComponent } from '../Components/add-product/add-product';
 export const routes: Routes = [
     {
         path: '',
@@ -30,6 +31,11 @@ export const routes: Routes = [
                 component: CartComponent,
                 canActivate: [AuthGuard]
             },
+            {
+                path:'Seller',
+                component: AddProductComponent,
+                canActivate:[AuthGuard]
+            }
         ]
     }
 ]

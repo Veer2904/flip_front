@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../Auth/cart';
 import { CartItem } from '../../models/cart-item.model';
+import { Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-cart',
@@ -10,39 +11,55 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './cart.html',
   styleUrl: './cart.css'
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
   cartItems: CartItem[] = [];
+  filteredCartItems: CartItem[] = [];
   total = 0;
 
-  constructor(private cartService: CartService,
-    private cdr: ChangeDetectorRef,
-  ) { }
+  private sub!: Subscription;
+
+  constructor(
+    private cartService: CartService,
+    private cdr : ChangeDetectorRef
+  ) { console.log('🧩 CartComponent got CartService', cartService); }
+
   ngOnInit(): void {
-    this.cartService.items$.subscribe(items => {
+    this.sub = this.cartService.items$.subscribe(items => {
       this.cartItems = items;
-      this.total = this.cartItems.reduce(
-        (sum, items) => sum + (items.total || 0),
-        0
-      );
+      this.filteredCartItems = items;
+      this.calculateTotal();
+      this.cdr.detectChanges();
     });
-    this.cartService.loadCart(); // 🔴 THIS loads the cart
+    this.cartService.loadCart();
+    this.cdr.detectChanges();
   }
-  removeitem(productId: number) {
-    this.cartService.removeFromCart(productId).subscribe();
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
-  cartitems() {
+
+  loadCart(): void {
     this.cartService.loadCart();
   }
-
-  isCartEmpty(): boolean {
-    return !this.cartItems || this.cartItems.length === 0;
+  removeItem(productId: number) {
+    this.cartService.removeFromCart(productId).subscribe({
+      next: () => {
+        this.cartService.loadCart();
+      },
+      error: err => console.error('error removing item : ', err)
+    });
+  }
+  encodeImageUrl(url: string): string {
+    if (!url) {
+      return 'assets/no-image.png';
+    }
+    return encodeURI(url);
   }
 
-  getValidCartItems(): CartItem[] {
-    if (!this.cartItems) return [];
-    return this.cartItems.filter((item: CartItem) => {
-      return item && item.product_id !== undefined;
-    });
+  calculateTotal(): void {
+    this.total = this.cartItems.reduce(
+      (sum, item) => sum + (item.total || 0),
+      0
+    );
   }
 }
